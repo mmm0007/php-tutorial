@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__.'/includes/db.php')
 
+require_once(__DIR__.'/includes/db.php')
 
 ?>
 
@@ -20,43 +20,48 @@ require_once(__DIR__.'/includes/db.php')
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Dropdown
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-  <p>Hello, world!</p>
+<?php require_once(__DIR__.'/includes/header.php');?>
+<div class= "containter">
+    <h1 class= "mt-5 mb-5">Animals</h1>
+
+      <a href="new.php" class="btn-btn-primary">Create new animal</a>
+
+    <table class="table">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Image</th>
+              <th scope="col">Name</th>
+              <th scope="col">Age</th>
+              <th scope="col">Actions</th>
+           </tr>
+        </thead>
+        <tbody>
+
+            <?php
+
+              $stmt = $Conn ->prepare('SELECT * FROM animals');
+              $stmt ->execute();
+              $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+              foreach($animals as $key => $animal) {
+           ?>
+
+              <tr>
+                <th scope="row"><?php echo $animal['animal_id'];?></th>
+                <td><?php echo $animal['animal_image'];?></td>
+                <td><?php echo $animal['animal_name'];?></td>
+                <td><?php echo $animal['animal_age'];?></td>
+                <td><a a class="btn btn-primary" href="edit.php?id=<?php echo $animal['animal_id']; ?>">Edit Animal</a></td>
+            </tr>
+          <?php
+              }
+            ?> 
+
+
+  </tbody>
+</table>
+</div>
 
   <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
